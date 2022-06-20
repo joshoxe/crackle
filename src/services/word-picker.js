@@ -1,4 +1,4 @@
-import words from '../assets/words.txt';
+import words from '../../public/words.txt';
 
 export class WordPicker {
   originalDate = new Date(2022, 5, 13, 12, 0, 0, 0);

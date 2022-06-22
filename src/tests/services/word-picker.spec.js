@@ -29,16 +29,9 @@ describe('Word Picker', () => {
   });
 
   it('getWord retrieves the correct word', () => {
-    sut.wordsList = sut.getWordList('women\r\nmen');
+    sut.words = ['women', 'men'];
     const result = sut.getWord(0);
 
     expect(result).toBe('women');
-  });
-
-  it('getWordList returns all words from a file', () => {
-    const result = sut.getWordList('test\r\ntest2');
-
-    expect(result).toBeInstanceOf(Array);
-    expect(result).toStrictEqual(['test', 'test2']);
   });
 });

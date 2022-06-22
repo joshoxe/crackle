@@ -1,11 +1,11 @@
-import words from '../words.txt';
+import { words } from '../assets/words';
 
 export class WordPicker {
   originalDate = new Date(2022, 5, 13, 12, 0, 0, 0);
   wordsList = [];
 
   constructor() {
-    this.wordsList = this.getWordList(words);
+    this.wordsList = words;
   }
 
   /**
@@ -20,14 +20,6 @@ export class WordPicker {
 
     const oneDay = 24 * 60 * 60 * 1000;
     return Math.round(Math.abs((this.originalDate - currentDate) / oneDay));
-  }
-
-  /**
-   * Synchronously reads assets/words.txt into an array
-   * @returns {array} An array of words
-   */
-  getWordList(words) {
-    return words.split('\r\n');
   }
 
   /**

@@ -87,7 +87,7 @@ export default {
             this.maxStreak = gameStats.maxStreak;
         },
         shareResult() {
-            shareService.copyResult(this.guessLog);
+            shareService.copyResult();
         }
     },
     created() {

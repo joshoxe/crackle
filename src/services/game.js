@@ -6,7 +6,7 @@ export class Game {
     this.randomString = randomString;
     this.gameBoard = [[]];
     this.answer = '';
-    this.rowLength = window.innerWidth >= 9000 ? 22 : 14;
+    this.rowLength = 14;
     this.wordCount = 7;
     this.remainingGuesses = 4;
   }
@@ -67,6 +67,13 @@ export class Game {
     });
   }
 
+  /**
+   * Checks a guess against the answer to find the `likeness` and `partial likeness` of the guess.
+   * A guess with 5 `likeness` is equal to the answer. The check code stores characters found as it goes
+   * to make sure it doesn't count characters more than once.
+   * @param {string} guess - A string of length equal to the answer to check against
+   * @returns {(object|boolean)} - A guess log object containing the likenesses found, or false if no remaining guesses
+   */
   checkGuess(guess) {
     if (this.answer.length !== guess.length) {
       throw Error('Guess and answer length do not match');
@@ -84,26 +91,38 @@ export class Game {
       partial_likeness: 0,
     };
 
-    // Store characters from answer found and their positions, as to not double count them
-    const likenessCache = {};
+    // Check off characters found in answer and guess by storing them, as to not double count them
+    const guessCharsFound = {};
+    const answerCharsFound = {};
 
     // Check whole guess for full likeness so it has priority
     for (let i = 0; i < guess.length; i++) {
-      if (guess[i] === this.answer[i] && likenessCache[i] !== this.answer[i]) {
+      if (guess[i] === this.answer[i]) {
+        if (i in guessCharsFound) {
+          continue;
+        }
+
         guessLog.likeness++;
-        likenessCache[i] = this.answer[i];
+        guessCharsFound[i] = guess[i];
+        answerCharsFound[i] = this.answer[i];
         continue;
       }
     }
 
     // Go back through guess for partial likeness
     for (let i = 0; i < guess.length; i++) {
+      if (i in guessCharsFound) {
+        continue;
+      }
+
       for (let x = 0; x < this.answer.length; x++) {
-        if (
-          guess[i] === this.answer[x] &&
-          likenessCache[x] !== this.answer[x]
-        ) {
-          likenessCache[x] = this.answer[x];
+        if (x in answerCharsFound) {
+          continue;
+        }
+
+        if (guess[i] === this.answer[x]) {
+          guessCharsFound[i] = guess[i];
+          answerCharsFound[x] = this.answer[x];
           guessLog.partial_likeness++;
           break;
         }

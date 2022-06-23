@@ -40,6 +40,32 @@ describe('Game Service', () => {
     expect(result).toStrictEqual(expectedResult);
   });
 
+  it('checkGuess only counts double letters once given that a guess has a single letter and an answer has a double letter, and the double letter has full likeness in the 1st position', () => {
+    const expectedResult = {
+      guess: 'sownd',
+      partial_likeness: 2,
+      likeness: 1,
+    };
+    sut.answer = 'woops';
+
+    const result = sut.checkGuess('sownd');
+
+    expect(result).toStrictEqual(expectedResult);
+  });
+
+  it('checkGuess only counts double letters once given that a guess has a single letter and an answer has a double letter, and the double letter has full likeness in the 2nd position', () => {
+    const expectedResult = {
+      guess: 'swond',
+      partial_likeness: 2,
+      likeness: 1,
+    };
+    sut.answer = 'woops';
+
+    const result = sut.checkGuess('swond');
+
+    expect(result).toStrictEqual(expectedResult);
+  });
+
   it('checkGuess only counts double letters once given that an answer has a single letter and a guess has a double letter', () => {
     const expectedResult = {
       guess: 'feens',

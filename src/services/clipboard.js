@@ -8,7 +8,6 @@ export class Clipboard {
 
   copy(text) {
     try {
-      console.log(`Trying to write ${text} to clipboard`);
       navigator.clipboard.writeText(text);
     } catch (err) {
       // TODO: Add a message to the toast service?

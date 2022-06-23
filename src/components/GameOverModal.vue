@@ -36,16 +36,18 @@
             </h2>
         </section>
         <section id="share">
-            <button id="share-button">Share <font-awesome-icon id="share-icon" icon="fa-solid fa-share-nodes" /></button>
+            <button id="share-button" @click="shareResult()">Share <font-awesome-icon id="share-icon" icon="fa-solid fa-share-nodes"/></button>
         </section>
     </section>
     </div>
 </template>
 
 <script>
+import { ShareService } from '../services/share';
 import { StorageService } from '../services/storage';
 
 const storageService = new StorageService();
+const shareService = new ShareService();
 
 export default {
     props: {
@@ -77,21 +79,24 @@ export default {
             }, 1000)
         },
         getGameStats() {
-            console.log("GOT STATS NOW")
             const gameStats = storageService.getLocalStatistics();
 
             this.gamesPlayed = gameStats.gamesPlayed;
             this.winPercentage = gameStats.winPercentage;
             this.currentStreak = gameStats.currentStreak;
             this.maxStreak = gameStats.maxStreak;
+        },
+        shareResult() {
+            shareService.copyResult();
         }
     },
     created() {
         this.getNextCrackleDate();
-    },
-    renderTriggered () {
         this.getGameStats();
-    }
+    },
+    // renderTriggered () {
+    //     this.getGameStats();
+    // }
 }
 </script>
 
